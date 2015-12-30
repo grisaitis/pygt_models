@@ -24,9 +24,9 @@ class NetConf:
     # 4 GB single buffer memory limit
     mem_buf_limit = 4 * 1024 * 1024 * 1024
     # Desired input dimensions (will select closest possible)
-    input_shape = [44,132,132]
+    input_shape = [132,132,132]
     # Desired output dimensions (will select closest posisble)
-    output_shape = [16, 44, 44]
+    output_shape = [44, 44, 44]
     # Number of U-Net Pooling-Convolution downsampling/upsampling steps
     unet_depth = 3
     # Number of feature maps in the start
@@ -34,7 +34,7 @@ class NetConf:
     # Number of input feature maps
     fmap_input = 1
     # Number of ouput feature maps
-    fmap_output = 11
+    fmap_output = 3
     # Feature map increase rule (downsampling)
     def unet_fmap_inc_rule(self, fmaps):
         return int(math.ceil(fmaps * 3));
@@ -42,7 +42,7 @@ class NetConf:
     def unet_fmap_dec_rule(self, fmaps):
         return int(math.ceil(fmaps / 3));
     # Skewed U-Net downsampling strategy
-    unet_downsampling_strategy = [[1,2,2],[1,2,2],[1,2,2]]
+    unet_downsampling_strategy = [[2,2,2],[2,2,2],[2,2,2]]
     # Number of SK-Net Pooling-Convolution steps
     sknet_conv_depth = 0
     # Feature map increase rule

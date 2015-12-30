@@ -18,9 +18,9 @@ import math
 import PyGreentea as pygt
 
 # Load the datasets
-hdf5_raw_file = '/groups/turaga/home/turagas/data/SNEMI3D/train/raw.hdf5'
-hdf5_gt_file = '/groups/turaga/home/turagas/data/SNEMI3D/train/labels_id.hdf5'
-hdf5_aff_file = '/groups/turaga/home/turagas/data/SNEMI3D/train/labels_aff11.hdf5'
+hdf5_raw_file = '/groups/turaga/home/turagas/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/img_normalized.h5'
+hdf5_gt_file = '/groups/turaga/home/turagas/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/groundtruth_seg_thick.h5'
+hdf5_aff_file = '/groups/turaga/home/turagas/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/groundtruth_aff.h5'
 
 hdf5_raw = h5py.File(hdf5_raw_file, 'r')
 hdf5_gt = h5py.File(hdf5_gt_file, 'r')
@@ -33,7 +33,7 @@ dataset = {}
 dataset['data'] = hdf5_raw_ds[None, :]
 dataset['label'] = hdf5_aff_ds;
 dataset['components'] = hdf5_gt_ds[None, :]
-dataset['nhood'] = pygt.malis.mknhood3d_aniso()
+dataset['nhood'] = pygt.malis.mknhood3d()
 
 test_dataset = {}
 test_dataset['data'] = hdf5_raw_ds
@@ -57,21 +57,23 @@ class TrainOptions:
 options = TrainOptions()
 
 # Set solver options
+print('Initializing solver...')
 solver_config = pygt.caffe.SolverParameter()
 solver_config.train_net = 'net_train_euclid.prototxt'
-solver_config.base_lr = 0.001
+solver_config.base_lr = 1e-3
 solver_config.momentum = 0.99
 solver_config.weight_decay = 0.000005
 solver_config.lr_policy = 'inv'
 solver_config.gamma = 0.0001
 solver_config.power = 0.75
 solver_config.max_iter = int(5e4)
-solver_config.snapshot = 2000
+solver_config.snapshot = int(2e3)
 solver_config.snapshot_prefix = 'net'
 solver_config.display = 1
 
 # Set devices
-# pygt.caffe.enumerate_devices(False)
+print('Setting devices...')
+pygt.caffe.enumerate_devices(False)
 pygt.caffe.set_devices((options.train_device, options.test_device))
 
 
@@ -90,7 +92,7 @@ solverstates = pygt.getSolverStates(solver_config.snapshot_prefix);
 # Second training method
 if (solverstates[-1][0] >= solver_config.max_iter):
     # Modify some solver options
-    solver_config.max_iter = int(3e5)
+    solver_config.max_iter = int(2e5)
     solver_config.train_net = 'net_train_malis.prototxt'
     options.loss_function = 'malis'
     # Initialize and restore solver
@@ -98,10 +100,3 @@ if (solverstates[-1][0] >= solver_config.max_iter):
     if (len(solverstates) > 0):
         solver.restore(solverstates[-1][1])
     pygt.train(solver, test_net, [dataset], [test_dataset], options)
-    
-
-
-
-
-
-
