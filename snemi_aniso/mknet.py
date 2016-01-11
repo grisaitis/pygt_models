@@ -56,6 +56,13 @@ class NetConf:
     # Feature map decrease rule within IP
     def sknet_fmap_dec_rule(self, fmaps):
         return int(math.ceil(fmaps / 2.5));
+    # ReLU negative slope
+    relu_slope = 0.005
+    # Batch Normalization
+    #use_batchnorm = True
+    batchnorm = False
+    batchnorm_maf = 0.95
+    dropout = 0.0
     # Loss function and mode ("malis", "euclid", "softmax")
     loss_function = "euclid"
 

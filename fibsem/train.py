@@ -1,20 +1,13 @@
 from __future__ import print_function
+import sys, os, math
 import h5py
 import numpy as np
 from numpy import float32, int32, uint8, dtype
-import sys
-
-# Relative path to where PyGreentea resides
-pygt_path = '../../PyGreentea'
-
-
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), pygt_path))
-
-# Other python modules
-import math
 
 # Load PyGreentea
+# Relative path to where PyGreentea resides
+pygt_path = '/groups/turaga/home/turagas/research/caffe_v1/PyGreentea'
+sys.path.append(pygt_path)
 import PyGreentea as pygt
 
 # Load the datasets
@@ -49,8 +42,8 @@ class TrainOptions:
     scale_error = True
     training_method = "affinity"
     recompute_affinity = True
-    train_device = 0
-    test_device = 2
+    train_device = 2
+    test_device = 0
     test_net='net_test.prototxt'
 
 
@@ -66,7 +59,7 @@ solver_config.weight_decay = 0.000005
 solver_config.lr_policy = 'inv'
 solver_config.gamma = 0.0001
 solver_config.power = 0.75
-solver_config.max_iter = int(5e4)
+solver_config.max_iter = int(1e4)
 solver_config.snapshot = int(2e3)
 solver_config.snapshot_prefix = 'net'
 solver_config.display = 1
@@ -74,7 +67,8 @@ solver_config.display = 1
 # Set devices
 print('Setting devices...')
 pygt.caffe.enumerate_devices(False)
-pygt.caffe.set_devices((options.train_device, options.test_device))
+# pygt.caffe.set_devices((options.train_device, options.test_device))
+pygt.caffe.set_devices(tuple(set((options.train_device, options.test_device))))
 
 
 solverstates = pygt.getSolverStates(solver_config.snapshot_prefix);
@@ -92,7 +86,7 @@ solverstates = pygt.getSolverStates(solver_config.snapshot_prefix);
 # Second training method
 if (solverstates[-1][0] >= solver_config.max_iter):
     # Modify some solver options
-    solver_config.max_iter = int(2e5)
+    solver_config.max_iter = int(4e5)
     solver_config.train_net = 'net_train_malis.prototxt'
     options.loss_function = 'malis'
     # Initialize and restore solver

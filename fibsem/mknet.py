@@ -1,20 +1,13 @@
 from __future__ import print_function
+import sys, os, math
 import h5py
 import numpy as np
 from numpy import float32, int32, uint8, dtype
-import sys
-
-# Relative path to where PyGreentea resides
-pygt_path = '../../PyGreentea'
-
-
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), pygt_path))
-
-# Other python modules
-import math
 
 # Load PyGreentea
+# Relative path to where PyGreentea resides
+pygt_path = '/groups/turaga/home/turagas/research/caffe_v1/PyGreentea'
+sys.path.append(pygt_path)
 import PyGreentea as pygt
 
 # Create the network we want
@@ -30,7 +23,7 @@ class NetConf:
     # Number of U-Net Pooling-Convolution downsampling/upsampling steps
     unet_depth = 3
     # Number of feature maps in the start
-    fmap_start = 20
+    fmap_start = 16
     # Number of input feature maps
     fmap_input = 1
     # Number of ouput feature maps
@@ -56,6 +49,13 @@ class NetConf:
     # Feature map decrease rule within IP
     def sknet_fmap_dec_rule(self, fmaps):
         return int(math.ceil(fmaps / 2.5));
+    # ReLU negative slope
+    relu_slope = 0.005
+    # Batch Normalization
+    #use_batchnorm = True
+    batchnorm = False
+    batchnorm_maf = 0.95
+    dropout = 0.0
     # Loss function and mode ("malis", "euclid", "softmax")
     loss_function = "euclid"
 
