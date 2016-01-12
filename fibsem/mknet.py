@@ -6,7 +6,7 @@ from numpy import float32, int32, uint8, dtype
 
 # Load PyGreentea
 # Relative path to where PyGreentea resides
-pygt_path = '/groups/turaga/home/turagas/research/caffe_v1/PyGreentea'
+pygt_path = '../../PyGreentea'
 sys.path.append(pygt_path)
 import PyGreentea as pygt
 
@@ -52,8 +52,7 @@ class NetConf:
     # ReLU negative slope
     relu_slope = 0.005
     # Batch Normalization
-    #use_batchnorm = True
-    batchnorm = False
+    use_batchnorm = True
     batchnorm_maf = 0.95
     dropout = 0.0
     # Loss function and mode ("malis", "euclid", "softmax")
