@@ -42,13 +42,12 @@ class TrainOptions:
     scale_error = True
     training_method = "affinity"
     recompute_affinity = True
-    train_device = 2
     test_device = 0
-    test_net='net_test.prototxt'
     max_iter = int(1e4)
     snapshot = int(2e3)
     snapshot_prefix = 'net'
-
+    train_device = 1
+    test_net = None
 
 options = TrainOptions()
 
@@ -72,8 +71,7 @@ solver_config.display = 1
 # Set devices
 print('Setting devices...')
 pygt.caffe.enumerate_devices(False)
-# pygt.caffe.set_devices((options.train_device, options.test_device))
-pygt.caffe.set_devices(tuple(set((options.train_device, options.test_device))))
+pygt.caffe.set_devices((options.train_device,))
 
 
 solverstates = pygt.getSolverStates(solver_config.snapshot_prefix);
@@ -83,7 +81,7 @@ if (len(solverstates) == 0 or solverstates[-1][0] < solver_config.max_iter):
     solver, test_net = pygt.init_solver(solver_config, options)
     if (len(solverstates) > 0):
         solver.restore(solverstates[-1][1])
-    pygt.train(solver, test_net, [dataset], [test_dataset], options)
+    pygt.train(solver, None, [dataset], [], options)
 
 
 solverstates = pygt.getSolverStates(solver_config.snapshot_prefix);
@@ -98,4 +96,4 @@ if (solverstates[-1][0] >= solver_config.max_iter):
     solver, test_net = pygt.init_solver(solver_config, options)
     if (len(solverstates) > 0):
         solver.restore(solverstates[-1][1])
-    pygt.train(solver, test_net, [dataset], [test_dataset], options)
+    pygt.train(solver, None, [dataset], [], options)
