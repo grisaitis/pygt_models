@@ -11,9 +11,9 @@ sys.path.append(pygt_path)
 import PyGreentea as pygt
 
 # Load the datasets
-hdf5_raw_file = '/groups/turaga/home/turagas/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/img_normalized.h5'
-hdf5_gt_file = '/groups/turaga/home/turagas/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/groundtruth_seg_thick.h5'
-hdf5_aff_file = '/groups/turaga/home/turagas/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/groundtruth_aff.h5'
+hdf5_raw_file = '/home/ubuntu/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/img_normalized.h5'
+hdf5_gt_file = '/home/ubuntu/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/groundtruth_seg_thick.h5'
+hdf5_aff_file = '/home/ubuntu/data/FlyEM/fibsem_medulla_7col/tstvol-520-1-h5/groundtruth_aff.h5'
 
 hdf5_raw = h5py.File(hdf5_raw_file, 'r')
 hdf5_gt = h5py.File(hdf5_gt_file, 'r')
