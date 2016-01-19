@@ -17,12 +17,8 @@ netconf.use_batchnorm = False
 netconf.dropout = 0.0
 
 netconf.fmap_start = 20
-netconf.fmap_inc = 1
-netconf.fmap_dec = 1
-netconf.unet_depth = 3
-netconf.unet_downsampling_strategy = [[3,3,3],[3,3,3],[1,1,1]]
-netconf.input_shape = [178, 178, 178]
-netconf.output_shape = [38, 38, 38]
+netconf.input_shape = [132,132,132]
+netconf.output_shape = [44, 44, 44]
 
 print ('Input shape: %s' % netconf.input_shape)
 print ('Output shape: %s' % netconf.output_shape)
