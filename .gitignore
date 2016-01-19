@@ -2,3 +2,4 @@
 *.solverstate
 *.h5
 *.prototxt
+.idea/ # settings directory for PyCharm IDE
