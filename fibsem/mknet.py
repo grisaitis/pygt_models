@@ -16,7 +16,7 @@ netconf.ignore_conv_buffer = True
 netconf.use_batchnorm = False
 netconf.dropout = 0.0
 
-netconf.fmap_start = 20
+netconf.fmap_start = 10
 netconf.input_shape = [132,132,132]
 netconf.output_shape = [44, 44, 44]
 
