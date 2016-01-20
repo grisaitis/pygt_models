@@ -47,6 +47,7 @@ class TrainOptions:
     test_net='net_test.prototxt'
     max_iter = int(1e4)
     snapshot = int(2e3)
+    loss_snapshot = int(2e3)
     snapshot_prefix = 'net'
 
 
@@ -57,8 +58,11 @@ print('Initializing solver...')
 solver_config = pygt.caffe.SolverParameter()
 solver_config.train_net = 'net_train_euclid.prototxt'
 
-solver_config.base_lr = 1e-3
+solver_config.type = 'Adam'
+solver_config.base_lr = 1e-4
 solver_config.momentum = 0.99
+solver_config.momentum2 = 0.999
+solver_config.delta = 1e-8
 solver_config.weight_decay = 0.000005
 solver_config.lr_policy = 'inv'
 solver_config.gamma = 0.0001
